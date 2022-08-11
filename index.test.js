@@ -61,7 +61,6 @@ describe('Band and Musician Models', () => {
             instrument: "Vocals"
         });
         const bands = await Band.findAll();
-        console.log("#############",bands);
         sabbathMembers = await bands[0].getMusicians();
         purpleMembers = await bands[1].getMusicians();
         expect(sabbathMembers[0].name).toBe("Ozzy Osbourne");
@@ -75,10 +74,28 @@ describe('Band and Musician Models', () => {
         await b2.addSong(s2);
         sabbathSongs = await b1.getSongs();
         purpleSongs = await b2.getSongs();
+        ironBands = await s1.getBands();
+        smokeBands = await s2.getBands();
         expect(sabbathSongs.length).toBe(1);
         expect(purpleSongs.length).toBe(2);
         expect(sabbathSongs[0].title).toBe("Iron Man");
         expect(purpleSongs[0].title).toBe("Iron Man");
         expect(purpleSongs[1].title).toBe("Smoke on the Water");
+        expect(smokeBands.length).toBe(1);
+        expect(ironBands.length).toBe(2);
+        expect(smokeBands[0].name).toBe("Deep Purple");
+        expect(ironBands[0].name).toBe("Black Sabbath");
+        expect(ironBands[1].name).toBe("Deep Purple");
+    })
+    test('can include musicians and songs with eager loading', async () => {
+        bandMusicians = await Band.findAll({include: Musician});
+        bandSongs = await Band.findAll({include: Song});
+        console.log(bandMusicians[0].name);
+        expect(bandMusicians[0].Musicians[0].name).toBe("Ozzy Osbourne");
+        expect(bandMusicians[1].Musicians[0].name).toBe("Ian Gillan");
+        expect(bandMusicians[1].Musicians[1].name).toBe("Ritchie Blackmore");
+        expect(bandSongs[0].Songs[0].title).toBe("Iron Man");
+        expect(bandSongs[1].Songs[0].title).toBe("Iron Man");
+        expect(bandSongs[1].Songs[1].title).toBe("Smoke on the Water");
     })
 })
