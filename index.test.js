@@ -5,6 +5,8 @@ describe('Band and Musician Models', () => {
     /**
      * Runs the code prior to all tests
      */
+    let b1;
+    let m1;
     beforeAll(async () => {
         // the 'sync' method will create tables based on the model class
         // by setting 'force:true' the tables are recreated each time the 
@@ -13,12 +15,20 @@ describe('Band and Musician Models', () => {
     })
 
     test('can create a Band', async () => {
-        // TODO - test creating a band
-        expect('NO TEST').toBe('EXPECTED VALUE HERE');
+        b1 = await Band.create({
+            name: "Black Sabbath",
+            genre: "Heavy Metal"
+        });
+        expect(b1.name).toBe("Black Sabbath");
+        expect(b1.genre).toBe("Heavy Metal");
     })
 
     test('can create a Musician', async () => {
-        // TODO - test creating a musician
-        expect('NO TEST').toBe('EXPECTED VALUE HERE');
+        m1 = await Musician.create({
+            name: "Bill Ward",
+            instrument: "Drums"
+        });
+        expect(m1.name).toBe("Bill Ward");
+        expect(m1.instrument).toBe("Drums");
     })
 })
